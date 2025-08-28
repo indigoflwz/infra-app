@@ -1,0 +1,6 @@
+aws_region        = "eu-central-1"
+project           = "sre-app"
+vpc_id            = "<copy from infra-core output>"
+public_subnet_ids = ["<pub-subnet-az-a>", "<pub-subnet-az-b>"]
+instance_type_app = "t3.micro"
+instance_type_mon = "t3.micro"
