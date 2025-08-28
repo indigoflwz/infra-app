@@ -1,0 +1,15 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+# Local overrides/creds
+override.tf
+override.tfvars
+*_override.tf
+*_override.tfvars
+*.pem
+# macOS
+.DS_Store
+EOF
