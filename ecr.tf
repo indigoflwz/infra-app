@@ -21,12 +21,7 @@ variable "github_repo" {
   default     = "app-web"
 }
 
-# (aws_region usually already exists in your variables.tf)
-variable "aws_region" {
-  type        = string
-  description = "AWS Region for ECR / IAM"
-  default     = "eu-central-1"
-}
+
 
 # --- Who am I / account id ---
 data "aws_caller_identity" "current" {}
@@ -36,9 +31,15 @@ resource "aws_ecr_repository" "app" {
   name                 = var.ecr_repo_name
   image_tag_mutability = "MUTABLE"
 
-  image_scanning_configuration { scan_on_push = true }
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
 
-  lifecycle_policy = jsonencode({
+# --- Lifecycle policy for repo ---
+resource "aws_ecr_lifecycle_policy" "app" {
+  repository = aws_ecr_repository.app.name
+  policy = jsonencode({
     rules = [{
       rulePriority = 1,
       description  = "Keep last 10 images",
