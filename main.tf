@@ -143,8 +143,9 @@ resource "aws_instance" "app" {
   vpc_security_group_ids      = [aws_security_group.app_sg.id]
   key_name                    = aws_key_pair.this.key_name
   associate_public_ip_address = true
-  user_data                   = file("${path.module}/user_data_app.sh")
-
+  user_data = templatefile("${path.module}/user_data_app.sh", {
+    REPO_URI = aws_ecr_repository.app.repository_url
+    })
   tags = { Name = "${var.project}-app" }
 }
 
@@ -162,3 +163,5 @@ resource "aws_instance" "mon" {
 
   tags = { Name = "${var.project}-mon" }
 }
+
+
